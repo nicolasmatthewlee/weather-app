@@ -45,3 +45,28 @@ form.append(searchContainer);
 searchContainer.append(searchIcon, searchInput);
 
 body.append(background, form);
+
+async function retrieveData(search) {
+  try {
+    const coordinatesResponse = await fetch(
+      `http://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${key}`
+    );
+    const coordinatesData = await coordinatesResponse.json();
+    const latitude = coordinatesData[0].lat;
+    const longitude = coordinatesData[0].lon;
+
+    const weatherResponse = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`
+    );
+    const weatherData = await weatherResponse.json();
+    console.log(weatherData);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// form handling
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  retrieveData(searchInput.value);
+});
