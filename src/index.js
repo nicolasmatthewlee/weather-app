@@ -92,7 +92,7 @@ async function retrieveData(search) {
   loadingIcon.classList.add('active');
   try {
     const coordinatesResponse = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${key}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${key}`
     );
     const coordinatesData = await coordinatesResponse.json();
     try {
