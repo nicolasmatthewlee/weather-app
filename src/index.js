@@ -1,8 +1,6 @@
 import './reset.css';
 import './styles.css';
 
-import MOUNTAINS_IMAGE from './assets/mountains.jpg';
-
 const key = 'f95e40c94a03a4ec0328c71ffffc2eae';
 const root = document.querySelector(':root');
 const body = document.querySelector('body');
@@ -32,8 +30,6 @@ setInnerHeight();
 setInnerWidth();
 
 // search UI
-const background = createElement('img', 'background', MOUNTAINS_IMAGE);
-
 const form = createElement('form');
 const searchContainer = createElement('div', 'search-container');
 const searchIcon = createElement('img', 'search-icon');
@@ -46,7 +42,7 @@ const errorMessage = createElement('div', 'error-message');
 form.append(searchContainer);
 searchContainer.append(searchIcon, searchInput, errorMessage);
 
-body.append(background, form);
+body.append(form);
 
 // data UI
 const contentContainer = createElement('div', 'content-container');
@@ -70,8 +66,11 @@ body.append(contentContainer);
 // display
 function display(location, data) {
   contentContainer.classList.add('active');
+  searchContainer.classList.add('display-active');
 
   searchInput.value = '';
+  errorMessage.classList.remove('active');
+
   locationLabel.textContent = location;
   temperatureLabel.textContent = kelvinToFahrenheit(data.temp);
   temperatureMaxLabel.textContent = kelvinToFahrenheit(data.temp_max);
@@ -99,12 +98,15 @@ async function retrieveData(search) {
         const weatherData = await weatherResponse.json();
         display(weatherData.name, weatherData.main);
       } catch {
+        errorMessage.classList.add('active');
         errorMessage.textContent = 'Request failed';
       }
     } catch {
+      errorMessage.classList.add('active');
       errorMessage.textContent = 'Location not found';
     }
   } catch (error) {
+    errorMessage.classList.add('active');
     errorMessage.textContent = 'Request failed';
   }
 }

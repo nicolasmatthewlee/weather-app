@@ -3,12 +3,10 @@
     font-weight: 500;
 }
 
-.background {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-
-    object-fit: cover;
+body {
+    background-image: url('./assets/mountains.jpg');
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .search-container {
@@ -20,6 +18,10 @@
     width: 300px;
 
     display: flex;
+}
+
+.search-container.display-active {
+    top: max(250px,calc(var(--innerHeight) / 2 - 25px));
 }
 
 .search-input {
@@ -51,6 +53,12 @@
     padding: 5px 0px 0px 10px;
 
     color: red;
+
+    display: none;
+}
+
+.error-message.active {
+    display: block;
 }
 
 .content-container {
@@ -61,11 +69,11 @@
     flex-direction: column;
     gap: 10px;
 
-    visibility: hidden;
+    display: none;
 }
 
 .content-container.active {
-    visibility: visible;
+    display: flex;
 }
 
 .location-label {
