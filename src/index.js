@@ -81,8 +81,15 @@ function kelvinToFahrenheit(n) {
   return Math.round(((n - 273.15) * 9) / 5 + 32);
 }
 
+// loading icon
+const loadingIcon = createElement('div', 'lds-ellipsis');
+loadingIcon.innerHTML = '<div></div><div></div><div></div><div></div>';
+
+body.append(loadingIcon);
+
 // form handling
 async function retrieveData(search) {
+  loadingIcon.classList.add('active');
   try {
     const coordinatesResponse = await fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${key}`
@@ -97,17 +104,21 @@ async function retrieveData(search) {
         );
         const weatherData = await weatherResponse.json();
         display(weatherData.name, weatherData.main);
+        loadingIcon.classList.remove('active');
       } catch {
         errorMessage.classList.add('active');
         errorMessage.textContent = 'Request failed';
+        loadingIcon.classList.remove('active');
       }
     } catch {
       errorMessage.classList.add('active');
       errorMessage.textContent = 'Location not found';
+      loadingIcon.classList.remove('active');
     }
   } catch (error) {
     errorMessage.classList.add('active');
     errorMessage.textContent = 'Request failed';
+    loadingIcon.classList.remove('active');
   }
 }
 
