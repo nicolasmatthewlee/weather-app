@@ -69,13 +69,17 @@ body.append(contentContainer);
 
 // display
 function display(location, data) {
-  console.log(data);
+  contentContainer.classList.add('active');
+
+  searchInput.value = '';
   locationLabel.textContent = location;
-  temperatureLabel.textContent = data.temp;
-  temperatureMaxLabel.textContent = data.temp_max;
-  temperatureMinLabel.textContent = data.temp_min;
-  humidityLabel.textContent = data.humidity;
-  pressureLabel.textContent = data.pressure;
+  temperatureLabel.textContent = kelvinToFahrenheit(data.temp);
+  temperatureMaxLabel.textContent = kelvinToFahrenheit(data.temp_max);
+  temperatureMinLabel.textContent = kelvinToFahrenheit(data.temp_min);
+}
+
+function kelvinToFahrenheit(n) {
+  return Math.round(((n - 273.15) * 9) / 5 + 32);
 }
 
 // form handling

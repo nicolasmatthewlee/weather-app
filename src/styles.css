@@ -55,5 +55,35 @@
 
 .content-container {
     position: absolute;
-    background-color: red;
+    padding: 30px 0px 0px 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    visibility: hidden;
+}
+
+.content-container.active {
+    visibility: visible;
+}
+
+.location-label {
+    font-size: 30px;
+}
+
+.temperature-label {
+    font-size: 90px;
+}
+
+.temperature-max-label::before {
+    content: 'High: ';
+}
+
+.temperature-min-label::before {
+    content: 'Low: ';
+}
+
+.temperature-label::after , .temperature-max-label::after , .temperature-min-label::after {
+    content: 'ºF';
 }
