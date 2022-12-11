@@ -31,6 +31,7 @@ window.addEventListener('resize', () => {
 setInnerHeight();
 setInnerWidth();
 
+// search UI
 const background = createElement('img', 'background', MOUNTAINS_IMAGE);
 
 const form = createElement('form');
@@ -47,6 +48,37 @@ searchContainer.append(searchIcon, searchInput, errorMessage);
 
 body.append(background, form);
 
+// data UI
+const contentContainer = createElement('div', 'content-container');
+const locationLabel = createElement('div', 'location-label');
+const temperatureLabel = createElement('div', 'temperature-label');
+const temperatureMaxLabel = createElement('div', 'temperature-max-label');
+const temperatureMinLabel = createElement('div', 'temperature-min-label');
+const humidityLabel = createElement('div', 'humidity-label');
+const pressureLabel = createElement('div', 'pressure-label');
+contentContainer.append(
+  locationLabel,
+  temperatureLabel,
+  temperatureMaxLabel,
+  temperatureMinLabel,
+  humidityLabel,
+  pressureLabel
+);
+
+body.append(contentContainer);
+
+// display
+function display(location, data) {
+  console.log(data);
+  locationLabel.textContent = location;
+  temperatureLabel.textContent = data.temp;
+  temperatureMaxLabel.textContent = data.temp_max;
+  temperatureMinLabel.textContent = data.temp_min;
+  humidityLabel.textContent = data.humidity;
+  pressureLabel.textContent = data.pressure;
+}
+
+// form handling
 async function retrieveData(search) {
   try {
     const coordinatesResponse = await fetch(
@@ -61,7 +93,7 @@ async function retrieveData(search) {
           `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`
         );
         const weatherData = await weatherResponse.json();
-        console.log(weatherData);
+        display(weatherData.name, weatherData.main);
       } catch {
         errorMessage.textContent = 'Request failed';
       }
@@ -73,7 +105,6 @@ async function retrieveData(search) {
   }
 }
 
-// form handling
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   errorMessage.textContent = '';
